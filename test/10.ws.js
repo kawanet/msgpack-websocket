@@ -17,10 +17,10 @@ describe(TITLE, function() {
 
     // echo server
     wss.on("connection", function(ws) {
-      ws = msgpackWebSocket(ws, echo);
+      msgpackWebSocket(ws, ondata);
 
-      function echo(msg) {
-        ws.send(msg.data);
+      function ondata(data) {
+        ws.send(data);
       }
     });
 
@@ -31,14 +31,14 @@ describe(TITLE, function() {
 
   it(endpoint, function(done) {
     var ws = new WebSocket(endpoint);
-    ws = msgpackWebSocket(ws, onmessage);
+    msgpackWebSocket(ws, ondata);
     var cnt = 0;
 
-    function onmessage(msg) {
+    function ondata(data) {
       if (cnt++ === 0) {
-        assert.equal(msg.data.hello, "World!");
+        assert.equal(data.hello, "World!");
       } else {
-        assert.equal(msg.data[0], -1);
+        assert.equal(data[0], -1);
         ws.close();
       }
     }

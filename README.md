@@ -13,10 +13,10 @@ var server = createServer();
 var wss = new WebSocket.Server({server: server});
 
 wss.on("connection", function(ws) {
-  msgpackWebSocket(ws, onmessage);
+  msgpackWebSocket(ws, ondata);
 
-  function onmessage(msg) {
-    ws.send(msg.data); // echo
+  function ondata(data) {
+    ws.send(data); // echo
   }
 });
 
@@ -27,10 +27,10 @@ Client:
 
 ```js
 var ws = new WebSocket("http://127.0.0.1:3000");
-msgpackWebSocket(ws, onmessage);
+msgpackWebSocket(ws, ondata);
 
-function onmessage(msg) {
-  console.warn(msg.data.hello); // -> "world!"
+function ondata(data) {
+  console.warn(data.hello); // -> "world!"
 }
 
 ws.onopen = function() {
